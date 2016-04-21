@@ -8,11 +8,16 @@ class TodosController < ApplicationController
     @todos = Todo.all
   end
 
+  # GET /todos/1
+  # GET /todos/1.json
+  def show
+  end
 
   # GET /todos/new
   def new
     @todo = Todo.new
   end
+
 
   # POST /todos
   # POST /todos.json
@@ -49,7 +54,7 @@ class TodosController < ApplicationController
   def destroy
     @todo.destroy
     respond_to do |format|
-      format.html { redirect_to todos_url, notice: 'Todo was successfully destroyed.' }
+      format.html { redirect_to root_url, notice: 'Todo was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
