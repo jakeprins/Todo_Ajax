@@ -14,6 +14,7 @@ function toggleDone() {
     contentType: "application/json",
     dataType: "json"})
 
+
     .done(function(data) {
       console.log(data);
 
