@@ -112,10 +112,26 @@ function submitTodo(event) {
 
 function cleanUpDoneTodos(event) {
   event.preventDefault();
-  $.when($(".completed").remove())
-    .then(updateCounters);
+
+  $.each($(".completed"), function(index, listItem) {
+    $listItem = $(listItem);
+    todoId = $(listItem).data('id');
+    deleteTodo(todoId);
+    $listItem.remove();
+  });
 }
 
+function deleteTodo(todoId) {
+  $.ajax({
+    type: "DELETE",
+    url: "/todos/" + todoId + ".json",
+    contentType: "application/json",
+    dataType: "json"})
+
+    .done(function(data) {
+      updateCounters();
+    });
+}
 $(document).ready(function(){
 $("input[type=checkbox]").bind('change', toggleDone);
 $("form").bind('submit', submitTodo);
