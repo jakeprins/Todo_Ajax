@@ -21,7 +21,6 @@ feature 'Manage todos on the list', js: true do
     create_todo(title)
     expect( page.find(:css, 'span#completed-count').text ).to eq "0"
     check "todo-1"
-    sleep 2
     expect( page.find(:css, 'span#todo-count').text ).to eq "0"
     expect( page.find(:css, 'span#completed-count').text ).to eq "1"
   end
@@ -38,4 +37,20 @@ feature 'Manage todos on the list', js: true do
     expect( page.find(:css, 'span#total-count').text ).to eq "3"
   end
 
+  scenario "We can clean up completed tasks and update the counters" do
+    create_todo(title)
+    check "todo-1"
+    expect( page.find(:css, 'span#total-count').text ).to eq "1"
+    expect( page.find(:css, 'span#completed-count').text ).to eq "1"
+    click_link("clean-up")
+    expect( page.find(:css, 'span#total-count').text ).to eq "0"
+    expect( page.find(:css, 'span#completed-count').text ).to eq "0"
+  end
+
+  scenario "We have no ramining completeded task in list after cleaning up" do
+    create_todo(title)
+    check "todo-1"
+    click_link("clean-up")
+    expect(page).not_to have_content("todo_title")
+  end
 end
